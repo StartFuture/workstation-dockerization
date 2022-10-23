@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  front:
+    build: ..
+    image: frontend_workstation
+    ports:
+      - "3000:3000"
+    env_file:
+      - "../workstation-frontend/.env"
+    networks:
+      workstation_net:
+        ipv4_address: 192.168.1.20
+
+  back:
+    container_name: backend_workstation 
+    build: ..
+    image: backend_workstation
+    ports:
+      - "5000:5000"
+    env_file:
+      - "../workstation-backend/.env"
+    networks:
+      workstation_net:
+        ipv4_address: 192.168.1.40
+
+  mysql:
+    container_name: db_workstation
+    image: db_workstation
+    restart: always
+    env_file:
+      - "../workstation-backend/.env"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+     - "3306:3306"
+    networks:
+      workstation_net:
+        ipv4_address: 192.168.1.60
+
+networks:
+  workstation_net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 192.168.1.0/24
+         gateway: 192.168.1.1

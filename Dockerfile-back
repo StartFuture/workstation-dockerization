@@ -1,0 +1,30 @@
+FROM python:latest
+
+WORKDIR /python_app/
+
+COPY ./workstation-backend/requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY ./workstation-backend/app .
+
+EXPOSE 5000
+
+# ENV FLASK_APP '/python_app/app.py'
+# ENV APP_NAME 'workstation-backend'
+# ENV FLASK_ENV 'development'
+# ENV FLASK_RUN_PORT 5000
+# ENV FLASK_DEBUG True
+# ENV APP_SECRET_KEY 'very secret key'
+# ENV JWT_SECRET_KEY 'other very secret key'
+# ENV JWT_EXPIRE_TOKEN 60
+# ENV DB_USERNAME 'root'
+# ENV PWD_DB 'admin'
+# ENV NAME_DB 'workstation'
+# ENV DB_HOST 'localhost'
+# ENV URL_FRONTEND 'http://192.168.1.20:3000'
+# ENV USER_EMAIL 'WorkStation.box.email@gmail.com'
+# ENV PASSWORD_EMAIL 'WorkStation2022'
+ENV PYTHONPATH '${PYTHONPATH}:/python_app/'
+
+CMD flask run --host=0.0.0.0 
